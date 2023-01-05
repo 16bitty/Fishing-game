@@ -1,7 +1,9 @@
 import random
-import time
-import sys
+import os
+import re
 
+#this gives a login or register option
+#login is stored in usernames.txt and is re-written on subsequent registers
 name = "default"
 def setup():
     global name
@@ -12,7 +14,7 @@ def setup():
         login = (username+password)
         confirm = str(input('this will overwrite any previous data, are you sure?(yes/no): '))
         if(confirm=='yes'):
-            with open('usernames.txt', 'w') as f:
+            with open('usernames.txt','w') as f:
                 f.write(login)
                 name = login
         elif(confirm=='no'):
@@ -25,7 +27,7 @@ def setup():
         username = str(input('username: '))
         password = str(input('password: '))
         login = (username+password)
-        with open('usernames.txt', 'r') as f:
+        with open('usernames.txt','r') as f:
             for line in f:
                 if line == login:
                     print('you have logged in')
@@ -41,5 +43,47 @@ def setup():
     else:
         print('please either input "login" or "register"')
         setup()
-setup()
+
 print(name)
+
+flist = ['salmon', 'trout', 'catfish', 'eel', 'kraken']
+money = 0
+
+#this randomly selects a fish from flist and writes it to fish.txt
+def cast():
+    fish = random.choice(flist)
+    print('you caught a ' + fish)
+    with open('fish.txt','a') as f:
+        f.write(fish+'\n')
+
+#this checks fish.txt for fish and adds to money based on fish name
+def sell():
+    global money
+    with open('fish.txt','r') as f:
+        tmoney=0
+        for line in f:
+            fish = f.readline()
+            fish = re.sub('[\n]','',fish)
+            print(fish)
+            if(fish=='salmon'):
+                money+= 3
+                tmoney+= 3
+            elif(fish=='trout'):
+                money+= 5
+                tmoney+= 5
+            elif(fish=='catfish'):
+                money+= 10
+                tmoney+= 10
+            elif(fish=='eel'):
+                money+= 15
+                tmoney+= 15
+            elif(fish=='kraken'):
+                money+= 50
+                tmoney+= 50
+            else:
+                print('error')
+        print('you sold all your fish and earned $'+str(tmoney)+'\nyour curent money is $'+str(money))
+    with open('fish.txt','w') as f:
+        f.write("")
+        
+    
