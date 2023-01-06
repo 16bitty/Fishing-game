@@ -45,10 +45,15 @@ def setup():
 
 print(name)
 
-flist = ['salmon', 'trout', 'catfish', 'eel', 'kraken']
+rod = 'basic'
+flist=['salmon', 'trout', 'catfish', 'eel', 'kraken']
+fcommon = ['salmon', 'trout', 'carp', 'tuna', 'boot']
+frare = ['eel', 'lobster', 'angelfish', 'squid', 'octopus']
+flegendary = ['kraken', 'dragon', 'leviathan']
 money = 0
 
-#this randomly selects a fish from flist and writes it to fish.txt
+#this randomly selects whether to choose from fcommon,frare,or flegendary
+#once chosen, it chooses a random item and appends it to fish.txt
 def cast():
     fish = random.choice(flist)
     print('you caught a ' + fish)
@@ -82,3 +87,31 @@ def sell():
         print('you sold all your fish and earned $'+str(tmoney)+'\nyour curent money is $'+str(money))
     with open('fish.txt','w') as f:
         f.write("")
+
+def buy():
+    global rod
+    global money
+    print('there are three rods available for purchase, your current rod is: '+rod)
+    print('basic - $20\nreinforced - $200\nplatinum - $1000')
+    print('your current money is: $'+str(money))
+    choice=input('which rod do you want to buy? enter "none" to exit: ')
+    if(choice=='basic' and money<20 or choice=='reinforced' and money<200 or choice=='platinum' and money<1000):
+        print("you don't have enough money for that")
+    elif(choice=='basic'):
+        money-=20
+        rod='basic'
+        print("your new rod is: "+rod)
+    elif(choice=='reinforced'):
+        money-=200
+        rod='reinforced'
+        print("your new rod is: "+rod)
+    elif(choice=='platinum'):
+        money-=1000
+        rod='platinum'
+        print("your new rod is: "+rod)
+    elif(choice=='none'):
+        print('exiting...')
+    else:
+        print('please input "common","reinforced,"platinum" or "none"')
+        buy()
+    
