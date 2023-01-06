@@ -1,5 +1,5 @@
 import random
-import os
+import time
 
 #this gives a login or register option
 #login is stored in usernames.txt and is re-written on subsequent registers
@@ -42,8 +42,8 @@ def setup():
     else:
         print('please either input "login" or "register"')
         setup()
-
-print(name)
+setup()
+print('type "help" if this is your first time playing')
 
 rod = 'basic'
 common = ['salmon', 'trout', 'carp', 'tuna', 'boot']
@@ -52,7 +52,7 @@ legendary = ['kraken', 'dragon', 'leviathan']
 rarity=[common,rare,legendary]
 money = 0
 
-#this randomly selects whether to choose from fcommon,frare,or flegendary
+#this randomly selects whether to choose from common,rare,or legendary
 #once chosen, it chooses a random item and appends it to fish.txt
 def cast():
     global rarity
@@ -64,6 +64,8 @@ def cast():
         frarity=random.choices(rarity, weights=[10,80,10])
     fish=random.choice(frarity)
     fish=random.choice(fish)
+    print("casting...")
+    time.sleep(1)
     print('you caught a '+fish)
     with open('fish.txt','a') as f:
         f.write(fish+'\n')
@@ -96,25 +98,26 @@ def sell():
     with open('fish.txt','w') as f:
         f.write("")
 
+#allows change of rod variable if required money amount is met and reduces money
 def buy():
     global rod
     global money
     print('there are three rods available for purchase, your current rod is: '+rod)
-    print('basic - $20\nreinforced - $100\nplatinum - $1000')
+    print('basic - $10\nreinforced - $50\nplatinum - $500')
     print('your current money is: $'+str(money))
     choice=input('which rod do you want to buy? enter "none" to exit: ')
-    if(choice=='basic' and money<20 or choice=='reinforced' and money<100 or choice=='platinum' and money<1000):
+    if(choice=='basic' and money<10 or choice=='reinforced' and money<50 or choice=='platinum' and money<500):
         print("you don't have enough money for that")
     elif(choice=='basic'):
-        money-=20
+        money-=10
         rod='basic'
         print("your new rod is: "+rod)
     elif(choice=='reinforced'):
-        money-=100
+        money-=50
         rod='reinforced'
         print("your new rod is: "+rod)
     elif(choice=='platinum'):
-        money-=1000
+        money-=500
         rod='platinum'
         print("your new rod is: "+rod)
     elif(choice=='none'):
@@ -122,4 +125,23 @@ def buy():
     else:
         print('please input "common","reinforced,"platinum" or "none"')
         buy()
-    
+
+#main loop of the game, takes input and performs functions based on it
+def gameloop():
+    choice=input('what would you like to do? ')
+    if(choice=='help'):
+        print('the possible choices are "cast", "sell", and "buy"')
+        gameloop()
+    elif(choice=='cast'):
+        cast()
+        gameloop()
+    elif(choice=='sell'):
+        sell()
+        gameloop()
+    elif(choice=='buy'):
+        buy()
+        gameloop()
+    else:
+        print('unexpected input - type "help" if you need a list of options')
+        gameloop()
+gameloop()
