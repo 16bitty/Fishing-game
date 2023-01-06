@@ -61,8 +61,7 @@ def sell():
     with open('fish.txt','r') as f:
         tmoney=0
         for line in f:
-            fish = f.readline()
-            print(fish)
+            fish = line
             if(fish=='salmon\n'):
                 money+= 3
                 tmoney+= 3
