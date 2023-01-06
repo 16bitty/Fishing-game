@@ -1,6 +1,5 @@
 import random
 import os
-import re
 
 #this gives a login or register option
 #login is stored in usernames.txt and is re-written on subsequent registers
@@ -63,21 +62,20 @@ def sell():
         tmoney=0
         for line in f:
             fish = f.readline()
-            fish = re.sub('[\n]','',fish)
             print(fish)
-            if(fish=='salmon'):
+            if(fish=='salmon\n'):
                 money+= 3
                 tmoney+= 3
-            elif(fish=='trout'):
+            elif(fish=='trout\n'):
                 money+= 5
                 tmoney+= 5
-            elif(fish=='catfish'):
+            elif(fish=='catfish\n'):
                 money+= 10
                 tmoney+= 10
-            elif(fish=='eel'):
+            elif(fish=='eel\n'):
                 money+= 15
                 tmoney+= 15
-            elif(fish=='kraken'):
+            elif(fish=='kraken\n'):
                 money+= 50
                 tmoney+= 50
             else:
@@ -85,5 +83,3 @@ def sell():
         print('you sold all your fish and earned $'+str(tmoney)+'\nyour curent money is $'+str(money))
     with open('fish.txt','w') as f:
         f.write("")
-        
-    
